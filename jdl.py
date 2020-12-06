@@ -22,6 +22,7 @@ DIR_LISTORDON = os.path.join(DIR_CSV, "listordon")
 
 # # Import des données
 
+
 data_final= pd.read_csv(os.path.join(DIR_CSV, 'data_final.csv'), sep = ";")
 # data_final
 
@@ -800,8 +801,12 @@ def jdl2(x, y):
                     v = random.choice(import_pretiret(f"pretiret_{region2(y)}"))+random.choice(ville_entier_r)
                     ville_final.append(v)
                 # Fins
-                if prop1/2 < alea < 2*prop2/3 + prop1/2:
+                if prop1/2 < alea < 2*prop2/3 + prop1/2 and import_suftiret(f"suftiret2_{dep}") != []:
                     v = random.choice(ville_entier_r)+random.choice(import_suftiret(f"suftiret2_{dep}"))
+                    ville_final.append(v)
+                # Fins
+                if prop1/2 < alea < 2*prop2/3 + prop1/2 and import_suftiret(f"suftiret2_{dep}") == []:
+                    v = random.choice(ville_entier_r)+random.choice(import_miltiret(f"miltiret_{region2(y)}"))+random.choice(ville_entier_r)
                     ville_final.append(v)
                 # Milieux
                 if 2*prop2/3 + prop1/2 < alea < prop2 + prop1/2  :
