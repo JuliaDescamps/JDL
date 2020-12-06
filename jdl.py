@@ -443,7 +443,7 @@ def absurde(x, y):
     listeville = convliste(data, "NOM_COM")
     return not x in listeville 
 
-##### Fonctions d'extraction
+##### Fonctions d'extraction en fichiers csv
 def export_pref(liste, name):
     df = pd.DataFrame(liste, columns=["prefixe"])
     df.to_csv( os.path.join(DIR_PREF, f'{name}.csv'), index=False)
@@ -506,7 +506,7 @@ def import_listordon(name):
 
 # # Extraction
 
-# ### Fonction d'extraction des listes de préfixes et suffixes propres à chaque région
+# ### Fonction d'extraction en csv des listes de préfixes et suffixes propres à chaque région
 
 def jdlpref(x):
     def supra_fonction(x):
@@ -838,6 +838,17 @@ def jdl2(x, y):
     }
 
 
+               #
+             #   #
+               #
+
+
+# # Statistiques descriptives et graphiques
+
+
+####### Fonctions de statistiques descriptives sur la taille de la ville
+
+### Fait un tri à plat des villes selon une taille donnée (encadrée par une borne min et une borne max), par département
 def tri_taille(dep, mini, maxi):
     res = []
     data = extractdep(dep)
@@ -849,6 +860,7 @@ def tri_taille(dep, mini, maxi):
     res = list(res)
     return(res)
 
+### Calcule la fréquence du nombre de villes avec tirets sur un intervalle de taille donné
 def stat_tiret(dep, mini, maxi):
     liste = tri_taille(dep, mini, maxi)
     if liste == []:
@@ -857,7 +869,7 @@ def stat_tiret(dep, mini, maxi):
         res = freq_tiret(liste)
     return(res)
 
-
+### Calcule l'effectif du nombre de villes avec tirets sur un intervalle de taille donné
 def stat_tiret2(dep, mini, maxi):
     liste = tri_taille(dep, mini, maxi)
     if liste == []:
@@ -866,6 +878,9 @@ def stat_tiret2(dep, mini, maxi):
         res = eff_tiret(liste)
     return(res)
 
+########## Graphique 1 : donne la position de la ville dans le département selon sa taille 
+# Abscisse = fréquence cumulée des villes
+# Ordonnée = taille de la ville
 
 def affich2(dep):
     res = []
@@ -900,6 +915,7 @@ def affich2(dep):
     plt.clf()
     return()
 
+#### Ordonne les villes, par département, selon leur taille
 def tripartaille(dep):
     liste = list(set(convliste(extractdep(dep), "NOM_COM")))
     liste.sort(key = lambda x : int(taille_h(x, dep)))
@@ -909,7 +925,7 @@ def tripartaille(dep):
         liste.append("MARSEILLE")
     return(liste)
 
-
+### Calcule la proportion de villes avec nom composé dans le département
 def pourcent(ville, dep):
     liste_ent = tripartaille(dep)
     bornesup = liste_ent.index(ville)
@@ -918,35 +934,11 @@ def pourcent(ville, dep):
     return(res)
 
 
+           
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # Fonction finale JDL
-
-
+########## Graphique 2 : compare l'effectif de noms composés et noms simples dans un département donnés 
+# Abscisse = taille de la ville (discret)
+# Ordonnée = effectif
 
 def courbe2(ville, dep, location):  
     t = import_listordon(f"listordon_{dep}")
