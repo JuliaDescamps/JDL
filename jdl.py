@@ -834,7 +834,7 @@ def jdl2(x, y):
         'taille': taille_h(x, y),
         'graph_taille': f'jdl_web/graph_taille/{y}-{x}.png',
         'graph_tiret': f'jdl_web/graph_tiret/plot_{y}.png',
-        'cities': ville_final
+        'cities': set(ville_final)
     }
 
 
