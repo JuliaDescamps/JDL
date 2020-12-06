@@ -770,7 +770,7 @@ def jdl2(x, y):
         if y == "75":
             res = "As-tu vraiment besoin d'anonymiser la capitale ?"
             return {'err': res}
-        if int(y) >= 97:
+        elif y not in ["2A", "2B"] and int(y) >= 97:
             res = "Désolée, JDL ne traite pas les villes d'Outre-mer :("
             return {'err': res}
         if x == "MARSEILLE":
