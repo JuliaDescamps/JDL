@@ -761,18 +761,18 @@ def super_fonction(x, dep, n=10):
     
     return(ville_entier_r)
 
-# # Fonctions finales JDL
+# # Fonction finale JDL
 
 # In[20]:
 
 
 def jdl2(x, y):
+    if y not in ["2A", "2B"] and int(y) >= 97:
+        res = "Désolée, JDL ne traite pas les villes d'Outre-mer :("
+        return {'err': res}
     if (x,y) in [('PARIS', "75"), ('MARSEILLE', "13"), ('LYON', "69")] or (not absurde(x, y)):
         if y == "75":
             res = "As-tu vraiment besoin d'anonymiser la capitale ?"
-            return {'err': res}
-        elif y not in ["2A", "2B"] and int(y) >= 97:
-            res = "Désolée, JDL ne traite pas les villes d'Outre-mer :("
             return {'err': res}
         if x == "MARSEILLE":
             return {
