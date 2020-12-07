@@ -731,8 +731,19 @@ def realiste_tiret(x, y):
     return(liste)
 
 
-# print(jdlsuftiret("Rhône-Alpes"))
-# print(realiste_tiret("Rhône-Alpes", "69"))
+               #
+             #   #
+               #
+
+## Les listes de préfixes, suffixes, et de composés sont ensuite exportés et stockés dans des fichiers .csv à part
+## Les préfixes et suffixes ne sont pas re-générés à chaque fois : l'algorithme va piocher dans ces fichiers de manière aléatoire
+## Cela dans l'unique but d'optimiser la rapidité de la sortie finale
+            
+               #
+             #   #
+               #
+
+
 
 
 # # Définition de la super-fonction
