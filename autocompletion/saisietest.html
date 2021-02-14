@@ -51,7 +51,7 @@
 					<!--onkeyup plutôt que onkeypress pour que le caractère soit inscrit au moment de la transaction-->
       <div id="Global">
            <div id="gauche"> <input type="text" value="Saisir la ville" id="moteur" onkeyup="controler_saisie()" onclick="init_saisie('1')" onmouseout="init_saisie('2')" /></div>
-           <div id="droite"> 	<input type="text" value="Département" id="moteur2" onkeyup="dep_saisie()" onclick="code_dep_test()" onmouseout="" /> </div>
+           <div id="droite"> 	<input type="text" value="Département" id="moteur2" onclick="code_dep_test()" onmouseout="" /> </div>
            <input type="button" value="Ok" id="valider" onclick="valider()" /><br />
 	         <div id="prop">texte<br />texte<br />texte</div>
       </div>
@@ -155,7 +155,7 @@ function controler_saisie()
     saisie = document.getElementById('moteur').value;
     nbCar = saisie.length;
     
-    var maxresults = 30 // nombre maximal de resultats pour afficher
+    var maxresults = 10 // nombre maximal de resultats pour afficher
     
     var available_results = [];
     var nbResults = 0 ;
@@ -168,7 +168,7 @@ function controler_saisie()
             {
             if(chaine_tab[i].length > nbCar - 1)
                 {
-                if(saisie == chaine_tab[i].substr(0, nbCar))
+                if(normalize(saisie) == normalize(chaine_tab[i].substr(0, nbCar)))
                     {
                     available_results.push(chaine_tab[i]);
                     nbResults = nbResults + 1;
@@ -191,8 +191,8 @@ function controler_saisie()
                     {
                     alert(22)
                     }
-                //alert(res);
-                document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix(\'' + res + '\')">' + available_results[i] + '</div>';
+                //alert(normalize(saisie));
+                document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix(\'' + remplace(res) + '\')">' + available_results[i] + '</div>';
                 }
             document.getElementById('prop').style.visibility = 'visible';
             }
@@ -207,6 +207,42 @@ function controler_saisie()
         }
     }
 
+function remplace(char)
+  {
+   var chaine = char;
+  chaine = chaine.replace("'","0"); 
+  return chaine;
+  }
+  
+function deremplace(char)
+  {
+   var chaine = char;
+  chaine = chaine.replace("0","'"); 
+  return chaine;
+  }
+  
+function normalize(char)
+  {
+   var chaine = char;
+  chaine = chaine.toUpperCase();
+  chaine = chaine.replaceAll("-"," ");
+  chaine = chaine.replaceAll("'"," "); 
+  chaine = replaceSpecialChars(chaine);
+  return chaine;
+  }
+
+function replaceSpecialChars(str)
+{
+    str = str.replace(/[ÀÁÂÃÄÅ]/,"A");
+    str = str.replace(/[àáâãäå]/,"a");
+    str = str.replace(/[ÈÉÊË]/,"E");
+    str = str.replace(/[Ç]/,"C");
+    str = str.replace(/[ç]/,"c");
+
+    // o resto
+
+    return str.replace(/[^a-z0-9]/gi,''); 
+}
 
 function dep_saisie()
     {
@@ -224,7 +260,7 @@ function dep_saisie()
     saisie = document.getElementById('moteur2').value;
     nbCar = saisie.length;
     
-    var maxresults = 30 // nombre maximal de resultats pour afficher
+    var maxresults = 9 // nombre maximal de resultats pour afficher
     
     var available_results = [];
     var nbResults = 0 ;
@@ -260,7 +296,7 @@ function dep_saisie()
                     {
                     alert(22)
                     }
-                //alert(res);
+               // alert(remplace(res));
                 document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix(\'' + res + '\')">' + available_results[i] + '</div>';
                 }
             document.getElementById('prop').style.visibility = 'visible';
@@ -289,8 +325,9 @@ function alerte()
     
 function choix(valeur)
     {
-    document.getElementById('moteur').value = valeur;
+    document.getElementById('moteur').value = deremplace(valeur);
     document.getElementById('prop').style.visibility = 'hidden';
+    code_dep_test();
     }
     
 function choix2(valeur)
