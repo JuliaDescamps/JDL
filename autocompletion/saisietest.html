@@ -1,0 +1,305 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>JDL</title> <!--Titre affiché en haut de l'onglet-->
+<meta name="description" content="Encore autocomplétion" />
+<meta name="robots" content="index,follow" />
+<meta http-equiv="content-language" content="fr" />
+<link href='mef.css' rel='stylesheet' type='text/css' />
+<script language="Javascript" src="mem_cherche.js"></script>
+</head>
+<body>
+
+	<div class="div_conteneur_parent">
+	<div id="infos" class="texte_div"></div>
+		<div class="div_conteneur_page">
+			</a>		
+			<div class="titre_page"><h1>Autocomplétion en Javascript</h1></div>
+             <!--Titre dans le coin en haut à gauche-->
+			
+			<div class="div_int_page">
+			
+			<div style="width:100%;display:block;text-align:center;">
+			</div>
+			
+			<div class="div_saut_ligne" style="height:30px;">
+			</div>	
+            
+			
+			<div style="float:left;width:10%;height:40px;"></div>
+			<div style="float:left;width:80%;height:40px;text-align:center;">
+			<div style="width:auto;display:block;height:auto;text-align:center;background-color:#ccccff;border:#7030a0 1px solid;padding-top:12px;box-shadow: 6px 6px 0px #aaa;color:#7030a0;">
+			<h1>J'invente Des Lieux</h1>
+             <!--Titre dans le coin en haut à gauche-->
+			</div>
+			</div>
+					
+			<div style="float:left;width:10%;height:40px;"></div>
+			
+			<div class="div_saut_ligne">
+			</div>		
+			
+			<div style="width:100%;height:auto;text-align:center;">
+						
+			<div style="width:1000px;display:inline-block;" id="conteneur">
+			
+
+
+
+<div class="centre">
+		<div class="titre_centre" id="titre" style="text-align:left;padding-left:10px;">
+					<!--onkeyup plutôt que onkeypress pour que le caractère soit inscrit au moment de la transaction-->
+      <div id="Global">
+           <div id="gauche"> <input type="text" value="Saisir la ville" id="moteur" onkeyup="controler_saisie()" onclick="init_saisie('1')" onmouseout="init_saisie('2')" /></div>
+           <div id="droite"> 	<input type="text" value="Département" id="moteur2" onkeyup="dep_saisie()" onclick="code_dep_test()" onmouseout="" /> </div>
+           <input type="button" value="Ok" id="valider" onclick="valider()" /><br />
+	         <div id="prop">texte<br />texte<br />texte</div>
+      </div>
+    </div>	
+</div>
+				
+			
+				<div class="centre" id="liste">
+					
+				</div>
+				
+				</div>					
+				
+			</div>
+			
+			</div>
+
+			<div class="div_saut_ligne" style="height:50px;">
+			</div>	
+			
+			</div>
+		</div>
+	
+	</div>
+	
+</body>
+<script type="text/javascript" language="javascript">
+
+function code_dep_test()
+	{ 
+	  var ville = mots_cles();
+	  var n = document.getElementById("moteur").value;
+	  var nbResults;
+	  var available_results_dep = [];
+	  
+	  nbResults = code_dep(n).length;
+	  document.getElementById('prop').innerHTML = '';
+	  
+		if(ville.includes(n) && nbResults == 1)
+			document.getElementById("moteur2").value = code_dep(n);
+	  else 
+	  {
+	    document.getElementById("moteur2").value = '';
+	    for(var i=0; i<nbResults; i++)
+      {
+      available_results_dep.push(code_dep(n)[i]);
+      // document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix(\'' + res + '\')">' + available_results[i] + '</div>';
+    //  document.getElementById('prop').style.visibility = 'visible';
+            }
+      // alert(available_results_dep)
+      for (var i=0; i < nbResults; i++)
+                {
+                var res_dep = available_results_dep[i];
+                function teste()
+                    {
+                    alert(22)
+                    }
+                //alert(res);
+                document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix2(\'' + res_dep + '\')">' + available_results_dep[i] + '</div>';
+                }
+            document.getElementById('prop').style.visibility = 'visible';
+            }
+	}
+
+
+	function init_saisie(mode)
+	{
+		if(mode == "1" && document.getElementById("moteur").value == "Saisir la ville")
+			document.getElementById("moteur").value = "";
+		if(mode == "2" && document.getElementById("moteur").value == "")
+			document.getElementById("moteur").value = "Saisir la ville";
+	}
+	
+	function init_saisie2(mode)
+	{
+		if(mode == "1" && document.getElementById("moteur2").value == "Département")
+			document.getElementById("moteur2").value = "";
+		if(mode == "2" && document.getElementById("moteur2").value == "")
+			document.getElementById("moteur2").value = "Département";
+	}
+	
+	function valider()
+	{
+	city = document.getElementById('moteur').value;
+	dep = document.getElementById('moteur2').value;
+    document.getElementById('liste').innerHTML = '<div>' + "Donne moi le résultat sur la ville: " + city + " dans le " + dep + '</div>';
+	}
+    
+    
+function controler_saisie()
+    {
+    var nbMots = ''; var chaine_tab;
+    var nbCar; var saisie = '';
+
+    document.getElementById('prop').innerHTML = '';
+
+    chaine_tab = mots_cles();
+    nbMots = chaine_tab.length;
+    //alert(nbMots);
+
+    saisie = document.getElementById('moteur').value;
+    nbCar = saisie.length;
+    
+    var maxresults = 30 // nombre maximal de resultats pour afficher
+    
+    var available_results = [];
+    var nbResults = 0 ;
+
+    
+    if(nbCar>0)
+        {
+        // Etape 1 : on collecte les mots qui commencent par l'entree
+        for(var i=0; i<nbMots; i++)
+            {
+            if(chaine_tab[i].length > nbCar - 1)
+                {
+                if(saisie == chaine_tab[i].substr(0, nbCar))
+                    {
+                    available_results.push(chaine_tab[i]);
+                    nbResults = nbResults + 1;
+                    if (nbResults > maxresults)
+                        {
+                        //alert("trop de resultats");
+                        break; // pour eviter de tourner inutilement
+                        }
+                    }
+                }
+            }
+        // Etape 2 : s'il y en a peu, on les affiche
+        if (nbResults > 0 && maxresults > nbResults )
+            {
+            //alert(available_results);
+            for (var i=0; i < nbResults; i++)
+                {
+                var res = available_results[i];
+                function teste()
+                    {
+                    alert(22)
+                    }
+                //alert(res);
+                document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix(\'' + res + '\')">' + available_results[i] + '</div>';
+                }
+            document.getElementById('prop').style.visibility = 'visible';
+            }
+        else
+            {
+            document.getElementById('prop').style.visibility = 'hidden';
+            }
+        }
+    else
+        {
+        document.getElementById('prop').style.visibility = 'hidden';
+        }
+    }
+
+
+function dep_saisie()
+    {
+    var nbMots = ''; var chaine_tab = code_dep();
+    var nbCar; var saisie = '';
+    //alert(chaine);
+    
+        
+    document.getElementById('prop').innerHTML = '';
+
+    
+    nbMots = chaine_tab.length;
+    //alert(nbMots);
+
+    saisie = document.getElementById('moteur2').value;
+    nbCar = saisie.length;
+    
+    var maxresults = 30 // nombre maximal de resultats pour afficher
+    
+    var available_results = [];
+    var nbResults = 0 ;
+
+    
+    if(nbCar>0)
+        {
+        // Etape 1 : on collecte les mots qui commencent par l'entree
+        for(var i=0; i<nbMots; i++)
+            {
+            if(chaine_tab[i].length > nbCar - 1)
+                {
+                if(saisie == chaine_tab[i].substr(0, nbCar))
+                    {
+                    available_results.push(chaine_tab[i]);
+                    nbResults = nbResults + 1;
+                    if (nbResults > maxresults)
+                        {
+                        //alert("trop de resultats");
+                        break; // pour eviter de tourner inutilement
+                        }
+                    }
+                }
+            }
+        // Etape 2 : s'il y en a peu, on les affiche
+        if (nbResults > 0 && maxresults > nbResults )
+            {
+            //alert(available_results);
+            for (var i=0; i < nbResults; i++)
+                {
+                var res = available_results[i];
+                function teste()
+                    {
+                    alert(22)
+                    }
+                //alert(res);
+                document.getElementById('prop').innerHTML += '<div class = "flux" onclick="choix(\'' + res + '\')">' + available_results[i] + '</div>';
+                }
+            document.getElementById('prop').style.visibility = 'visible';
+            }
+        else
+            {
+            document.getElementById('prop').style.visibility = 'hidden';
+            }
+        }
+    else
+        {
+        document.getElementById('prop').style.visibility = 'hidden';
+        }
+
+    }
+
+
+
+
+
+    
+function alerte()
+    {
+    alert(22);
+    }
+    
+function choix(valeur)
+    {
+    document.getElementById('moteur').value = valeur;
+    document.getElementById('prop').style.visibility = 'hidden';
+    }
+    
+function choix2(valeur)
+    {
+    document.getElementById('moteur2').value = valeur;
+    document.getElementById('prop').style.visibility = 'hidden';
+    }
+
+	
+</script>
+</html>
+	
