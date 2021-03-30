@@ -8,6 +8,8 @@ import numpy as np
 import random 
 import matplotlib.pyplot as plt
 import math
+import unicodedata
+import re
 from jdl.settings import BASE_DIR
 from collections import Counter
 
@@ -52,7 +54,21 @@ data_final["taille_pop"] = pd.Series(data_final['POPULATION'].astype(str))
 
 # # Définition des fonctions de base
 
-
+def slugify(value, allow_unicode=False):
+    """
+    Taken from https://github.com/django/django/blob/master/django/utils/text.py
+    Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
+    dashes to single dashes. Remove characters that aren't alphanumerics,
+    underscores, or hyphens. Convert to lowercase. Also strip leading and
+    trailing whitespace, dashes, and underscores.
+    """
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize('NFKC', value)
+    else:
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value.lower())
+    return re.sub(r'[-\s]+', '-', value).strip('-_')
 
 
 ##### Fonction qui fait l'extraction de la base de région à partir de la base initiale
@@ -445,61 +461,73 @@ def absurde(x, y):
 
 ##### Fonctions d'extraction en fichiers csv
 def export_pref(liste, name):
+    name = slugify(name)
     df = pd.DataFrame(liste, columns=["prefixe"])
     df.to_csv( os.path.join(DIR_PREF, f'{name}.csv'), index=False)
     return
 
 def import_pref(name):
+    name = slugify(name)
     df = pd.read_csv(os.path.join(DIR_PREF, f'{name}.csv'), sep = ";")
     lp = convliste(df, "prefixe")
     return(lp)
 
 def export_suf(liste, name):
+    name = slugify(name)
     df = pd.DataFrame(liste, columns=["suffixe"])
     df.to_csv(os.path.join(DIR_SUF, f'{name}.csv'), index=False)
     return
 
 def import_suf(name):
+    name = slugify(name)
     df = pd.read_csv(os.path.join(DIR_SUF, f'{name}.csv'), sep = ";")
     lp = convliste(df, "suffixe")
     return(lp)
 
 def export_pretiret(liste, name):
+    name = slugify(name)
     df = pd.DataFrame(liste, columns=["pretiret"])
     df.to_csv(os.path.join(DIR_PRETIRET, f'{name}.csv'), index=False)
     return
 
 def import_pretiret(name):
+    name = slugify(name)
     df = pd.read_csv(os.path.join(DIR_PRETIRET, f'{name}.csv'), sep = ";")
     lp = convliste(df, "pretiret")
     return(lp)
 
 def export_suftiret(liste, name):
+    name = slugify(name)
     df = pd.DataFrame(liste, columns=["suftiret"])
     df.to_csv(os.path.join(DIR_SUFTIRET, f'{name}.csv'), index=False)
     return
 
 def import_suftiret(name):
+    name = slugify(name)
     df = pd.read_csv(os.path.join(DIR_SUFTIRET, f'{name}.csv'), sep = ";")
     lp = convliste(df, "suftiret")
     return(lp)
 
 def export_miltiret(liste, name):
+    name = slugify(name)
     df = pd.DataFrame(liste, columns=["miltiret"])
     df.to_csv(os.path.join(DIR_MILTIRET, f'{name}.csv'), index=False)
     return
 
 def import_miltiret(name):
+    name = slugify(name)
     df = pd.read_csv(os.path.join(DIR_MILTIRET, f'{name}.csv'), sep = ";")
     lp = convliste(df, "miltiret")
     return(lp)
 
 def export_listordon(liste, name):
+    name = slugify(name)
     df = pd.DataFrame(liste, columns=["liste"])
     df.to_csv(os.path.join(DIR_LISTORDON, f'{name}.csv'), index=False)
     return
 
 def import_listordon(name):
+    name = slugify(name)
     df = pd.read_csv(os.path.join(DIR_LISTORDON, f'{name}.csv'), sep = ";")
     lp = convliste(df, "liste")
     return(lp)
