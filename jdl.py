@@ -401,7 +401,7 @@ def ajout_tiret(liste, x):
 def region(x):
     region = []
     if homonyme(x) == 0:
-        region = data_final[data_final["NOM_COM"] == x]["Région"].all()
+        region = data_final[data_final["NOM_COM"] == x]["Région"].iloc[0]
     if homonyme(x) == 1:
         region = "Précisez le numéro du département"
     return(region)
@@ -410,38 +410,38 @@ def region(x):
 ##### Fonction qui donne la région agrégée d'appartenance de la ville (réforme des régions)
 def refregion(x):
     region = []
-    region = data_final[data_final["NOM_COM"] == x]["NOM_REG"].all()
+    region = data_final[data_final["NOM_COM"] == x]["NOM_REG"].iloc[0]
     return(region)
 
 ##### Fonction qui donne la région d'appartenance du département
 def region2(x):
-    region = data_final[data_final["CODE_DEPT"] == x]["Région"].all()
+    region = data_final[data_final["CODE_DEPT"] == x]["Région"].iloc[0]
     return(region)
 
 
 ##### Fonction qui donne le département d'appartenance de la ville
 def dept(x):
     dept = []
-    dept = data_final[data_final["NOM_COM"] == x]["NOM_DEPT"].all()
+    dept = data_final[data_final["NOM_COM"] == x]["NOM_DEPT"].iloc[0]
     return(dept)
 
 ##### Fonction qui donne le code du département d'appartenance de la ville
 def codedept(x):
     dept = []
-    dept = data_final[data_final["NOM_COM"] == x]["CODE_DEPT"].all()
+    dept = data_final[data_final["NOM_COM"] == x]["CODE_DEPT"].iloc[0]
     return(dept)
 
 
 ##### Fonction qui donne la taille de la ville
 def taille(x):
-    res = data_final[data_final["NOM_COM"] == x]["taille_pop"].all()
+    res = data_final[data_final["NOM_COM"] == x]["taille_pop"].iloc[0]
     t = str(res)
     return(res)
 
 ##### Fonction qui donne la taille de la ville si homonyme
 def taille_h(x, y):
     data = extractdep(y)
-    res = data[data["NOM_COM"] == x]["taille_pop"].all()
+    res = data[data["NOM_COM"] == x]["taille_pop"].iloc[0]
     t = str(res)
     if y == "13" and x == "MARSEILLE":
         res = "861635"
