@@ -439,14 +439,15 @@ def taille(x):
     return(res)
 
 ##### Fonction qui donne la taille de la ville si homonyme
-def taille_h(x, y):
-    data = extractdep(y)
-    res = data[data["NOM_COM"] == x]["taille_pop"].iloc[0]
-    t = str(res)
+def taille_h(x, y) -> int : 
     if y == "13" and x == "MARSEILLE":
-        res = "861635"
-    if y == "69" and x == "LYON":
-        res = "513275"
+        res = 861635
+    elif y == "69" and x == "LYON":
+        res = 513275
+    else:
+        data = extractdep(y)
+        res = data[data["NOM_COM"] == x]["taille_pop"].iloc[0]
+
     return(res)
 
 ##### Fonction qui dit si un élément apparaît une autre fois dans une liste
@@ -813,16 +814,16 @@ def jdl2(x, y):
         if y == "75":
             res = "As-tu vraiment besoin d'anonymiser la capitale ?"
             return {'err': res}
-        if x == "MARSEILLE":
-            return {
-                'city_name': x,
-                'dept': y,
-                'region': region2(y),
-                'taille': taille_h(x, y),
-                'graph_taille': f'jdl_web/graph_taille/{y}-{x}.png',
-                'graph_tiret': f'jdl_web/graph_tiret/plot_{y}.png',
-                'cities': ["CARMONT (cf. Paul Pasquali)"]
-            }
+        #if x == "MARSEILLE":
+        #    return {
+        #        'city_name': x,
+        #        'dept': y,
+        #        'region': region2(y),
+        #        'taille': taille_h(x, y),
+        #        'graph_taille': f'jdl_web/graph_taille/{y}-{x}.png',
+        #        'graph_tiret': f'jdl_web/graph_tiret/plot_{y}.png',
+        #        'cities': ["CARMONT (cf. Paul Pasquali)"]
+        #    }
         dep = y
         ville_entier_r = super_fonction(region2(y), dep)
 
